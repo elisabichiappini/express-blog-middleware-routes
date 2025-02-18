@@ -18,9 +18,23 @@ const show = (req, res) => {
             html += '</ul>';
             res.send(html);
         },
+        json: () => {
+            res.json({
+                data: posts,
+                count: posts.length
+            })
+        }
     })
 };
 
+const store = (req, res) => {
+    //step 1 leggere il contenuto del body, 2 fare i controlli di validità del body, 
+    //SE non è valido segnaliamo errore 400, ALTR salviamo nel file.json il nuovo post
+    //SE richiesta HTML faccio redirect a /posts aggiornato, SE richiesta JSON invio post in json
+
+}
+
 module.exports = {
-    show
+    show,
+    store
 }

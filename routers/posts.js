@@ -6,6 +6,7 @@ const postsController = require("../controllers/posts.js");
 
 //rotta /posts
 router.get("/", postsController.show);
+router.post("/", postsController.store);
 
 //per esportazine
 module.exports = router;
