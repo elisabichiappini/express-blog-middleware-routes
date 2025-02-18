@@ -7,7 +7,7 @@ const show = (req, res) => {
             posts.forEach(post => {
                 html += `
             <li>
-                <h3>titolo: ${post.title}</h3>
+                <h3>${post.title}</h3>
                 <p>${post.content}</p>
                 <img width="200px" src=${`/${post.image}`}/>
                 <h6>tags: ${post.tags}</h6>
@@ -15,12 +15,11 @@ const show = (req, res) => {
                 <a href="/posts/${post.slug}/download" target="_blank"> Scarica immagine </a>
             </li>`;
         });
-                html += '</ul>';
-                res.send(html);
-
+            html += '</ul>';
+            res.send(html);
         },
     })
-}
+};
 
 module.exports = {
     show
