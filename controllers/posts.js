@@ -71,7 +71,9 @@ const store = (req, res) => {
 };
 
 const destroy = (req, res) => {
-    res.send('ciao sono stato cancellato');
+    const { postDaEliminare } = req;
+
+    res.send(`cancello il post ${postDaEliminare.title}`);
 };
 
 module.exports = {

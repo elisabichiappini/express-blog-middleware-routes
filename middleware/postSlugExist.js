@@ -8,6 +8,9 @@ module.exports = (req, res, next) => {
     if(!sluggedPost) {
         return res.status(404).send(`post con slug ${slug} non trovato`)
     }
+    //salvo il post da eliminare della request
+    req.postDaEliminare = sluggedPost;
+
     //scriverlo subito per chè va eseguito
     next();
 }
