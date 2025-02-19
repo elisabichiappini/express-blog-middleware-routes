@@ -1,4 +1,5 @@
 const posts = require("../db/posts.json");
+const path = require("path");
 
 const show = (req, res) => {
     res.format({
@@ -27,15 +28,22 @@ const show = (req, res) => {
     })
 };
 
+const  updatePost = (nuoviPosts) => {
+    const filePath = path.join("__dirname", '../db/posts.json');
+}
+
 const store = (req, res) => {
     //step 1 leggere il contenuto del body, ok router.use per il parser del body
-        const {title, content, tags} = req.body;
     // 2 fare i controlli di validità del body, 
-    if(!title || typeof title !== 'string' || title.trim().replaceAll('/','').length === 0) {
-        res.status(400).send('Il title non è valido');
-    }
-    if(!content || typeof content !== 'string' || content.trim().replaceAll('/','').length === 0) {
-        res.status(400).send('Il content non è valido');
+    ['title', 'content'].forEach(stringKey => {
+        const value = req.body[stringKey]
+        if(!value || typeof value !== 'string' || value.trim().replaceAll('/','').length === 0) {
+            res.status(400).send(`Il ${value} non è valido`);
+        }
+    });
+    const { tags } = req.body;
+    if(!tags || Array.isArray(tags) || tags.length !== 0) {
+
     }
     //SE non è valido segnaliamo errore 400, ALTR salviamo nel file.json il nuovo post
     //SE richiesta HTML faccio redirect a /posts aggiornato, SE richiesta JSON invio post in json
