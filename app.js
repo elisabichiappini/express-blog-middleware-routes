@@ -17,5 +17,5 @@ app.get("/", (req, res) => {
 app.use("/posts", postsRouter)
 
 app.listen(port, () => {
-    console.log(`Server avviato su http://localhost:3000`)
+    console.log(`Server avviato su http://localhost:3000`);
 })
