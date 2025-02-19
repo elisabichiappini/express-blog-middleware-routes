@@ -68,6 +68,10 @@ const store = (req, res) => {
             })
         }
     })
+};
+
+const destory = (req, res) => {
+    
 }
 
 module.exports = {
