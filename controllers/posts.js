@@ -70,11 +70,12 @@ const store = (req, res) => {
     })
 };
 
-const destory = (req, res) => {
-    
-}
+const destroy = (req, res) => {
+    res.send('ciao sono stato cancellato');
+};
 
 module.exports = {
     show,
-    store
+    store,
+    destroy,
 }
