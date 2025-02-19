@@ -1,5 +1,6 @@
-const posts = require("../db/posts.json");
+let posts = require("../db/posts.json");
 const path = require("path");
+const fs = require("fs");
 
 const show = (req, res) => {
     res.format({
@@ -28,26 +29,45 @@ const show = (req, res) => {
     })
 };
 
-const  updatePost = (nuoviPosts) => {
-    const filePath = path.join("__dirname", '../db/posts.json');
+const  addPost = (newPost) => {
+    const filePath = path.join(process.cwd(), './db/posts.json');
+    const newPosts = [...posts, newPost];
+    fs.writeFileSync(filePath, JSON.stringify(newPosts));
+    posts = newPosts;
 }
 
 const store = (req, res) => {
+    const { title, content, tags} = req.body;
     //step 1 leggere il contenuto del body, ok router.use per il parser del body
     // 2 fare i controlli di validità del body, 
     ['title', 'content'].forEach(stringKey => {
-        const value = req.body[stringKey]
+        const value = req.body[stringKey];
         if(!value || typeof value !== 'string' || value.trim().replaceAll('/','').length === 0) {
-            res.status(400).send(`Il ${value} non è valido`);
+            return res.status(400).send(`Il ${value} non è valido`);
         }
     });
-    const { tags } = req.body;
-    if(!tags || Array.isArray(tags) || tags.length !== 0) {
+    if(!tags || !Array.isArray(tags) || tags.length === 0) {
+        return res.status(400).send(`Tags non è valido`);
+    };
 
-    }
+    const newPost = {
+        title, 
+        content, 
+        tags
+    }; 
+
+    addPost(newPost);
     //SE non è valido segnaliamo errore 400, ALTR salviamo nel file.json il nuovo post
-    //SE richiesta HTML faccio redirect a /posts aggiornato, SE richiesta JSON invio post in json
-    res.end();
+    res.format({
+        html: () => {
+            res.redirect('/posts');
+        },
+        json: () => {
+            res.json({
+                data: newPost
+            })
+        }
+    })
 }
 
 module.exports = {
